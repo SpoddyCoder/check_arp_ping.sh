@@ -19,7 +19,7 @@
 #
 # Original Author: SpoddyCoder, 2018
 # https://github.com/SpoddyCoder/check_arp_ping.sh
-# v1.0.1
+# v1.0.2
 #
 
 # conf
@@ -52,7 +52,9 @@ if [ $? -ne 0 ]; then
 fi
 
 # parse response times
-timings=`echo "$check" | grep $host | grep "reply from" | cut -f7 -d' ' | sed -e 's/ms$//'`
+# different versions of arping respond with different outputs 
+# 2 sed's at end for the two known versions tests (TODO: improve this)
+timings=`echo "$check" | grep $host | grep "from" | cut -f7 -d' ' | sed -e 's/ms$//' | sed -e's/^time=//'`
 # calculate results
 # the internet is great :) https://serverfault.com/questions/239496/
 results=`echo "$timings" | awk '{if(min==""){min=max=$1}; if($1>max) {max=$1}; if($1<min) {min=$1}; total+=$1; count+=1} END {print count, total/count, max, min}'`
@@ -85,4 +87,17 @@ fi
 msg="Packet loss = ${pl}%, RTA = ${avg} ms"
 metrics="'rta'=${avg}ms;$rtaw;$rtac;$min;$max 'pl'=${pl}%;$plw;$plc;-;-"
 echo "$label $status - $msg | $metrics"
-exit 0
+case "$status" in
+	OK)
+		exit 0
+		;;
+	WARNING)
+		exit 1
+		;;
+	CRITICAL)
+		exit 2
+		;;
+	*)
+		exit 3
+		;;
+esac
