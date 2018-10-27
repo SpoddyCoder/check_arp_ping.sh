@@ -19,7 +19,7 @@
 #
 # Original Author: SpoddyCoder, 2018
 # https://github.com/SpoddyCoder/check_arp_ping.sh
-# v1.0.2
+# v1.0.3
 #
 
 # conf
@@ -53,8 +53,8 @@ fi
 
 # parse response times
 # different versions of arping respond with different outputs 
-# 2 sed's at end for the two known versions tests (TODO: improve this)
-timings=`echo "$check" | grep $host | grep "from" | cut -f7 -d' ' | sed -e 's/ms$//' | sed -e's/^time=//'`
+# 3 sed's at end for the two known versions tests (TODO: improve this)
+timings=`echo "$check" | grep $host | grep "from" | cut -f7 -d' ' | sed -e 's/ms$//' | sed -e's/^time=//' | sed '/^\s*$/d'`
 # calculate results
 # the internet is great :) https://serverfault.com/questions/239496/
 results=`echo "$timings" | awk '{if(min==""){min=max=$1}; if($1>max) {max=$1}; if($1<min) {min=$1}; total+=$1; count+=1} END {print count, total/count, max, min}'`
