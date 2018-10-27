@@ -10,7 +10,7 @@
 # 	rta - avg/min/max (ms)
 # 	pl - total lost (%)
 #
-# usage: check_arping.sh {HOST} {WARNING_RTA_THRESHOLD} {CRITICAL_RTA_THRESHOLD} [{WARNING_PL_THRESHOLD} {CRITICAL_PL_THRESHOLD} {NUM_PINGS}]
+# usage: check_arp_ping.sh {HOST} {WARNING_RTA_THRESHOLD} {CRITICAL_RTA_THRESHOLD} [{WARNING_PL_THRESHOLD} {CRITICAL_PL_THRESHOLD} {NUM_PINGS}]
 #
 # RoundTripAverage thresholds are required (ms)
 # PacketLoss thresholds default to 20,80 if not specified (%)
@@ -19,7 +19,7 @@
 #
 # Original Author: SpoddyCoder, 2018
 # https://github.com/SpoddyCoder/check_arp_ping.sh
-# v1.0
+# v1.0.1
 #
 
 # conf
